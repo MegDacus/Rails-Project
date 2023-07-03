@@ -5,10 +5,6 @@ class User < ApplicationRecord
     has_many :bookclubs, through: :memberships
     has_many :comments
 
-    private
-
-    def user_params
-        params.permit(:username, :first_name, :last_name, :password, :password_confirmation)
-    end
-
+    validates {:username, :first_name, :last_name, :password, :password_confirmation}, presence: true
+    validates :username, uniqueness: { true, message: "This username is already taken."}
 end
