@@ -1,7 +1,13 @@
 class BookclubBooksController < ApplicationController
+    skip_before_action :verify_authenticity_token, only: :create
+
     def create
-        book = BookclubBook.create!(club_book_params)
-        render json: book, status: :created
+        if is_host?
+             book = BookclubBook.create!(club_book_params.merge(bookclub_id: params[:bookclub_id]))
+            render json: book, status: :created
+        else
+            render json: {error: "Only the host is authorized for this action"}, status: :unauthorized
+        end
     end
 
     def index
@@ -12,6 +18,10 @@ class BookclubBooksController < ApplicationController
     private
 
     def club_book_params
-        params.permit(:bookclub_id, :book_id, :month)
+        params.permit(:book_id, :month)
+    end
+
+    def is_host?
+        Membership.exists?(bookclub_id: params[:bookclub_id], user_id: @current_user.id, is_host: true)
     end
 end

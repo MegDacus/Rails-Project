@@ -4,7 +4,9 @@ class BookclubIndexSerializer < ActiveModel::Serializer
   def this_months_book
     bookclub_book = BookclubBook.where(month: current_month, bookclub_id: object.id).first
     book = Book.find_by(id: bookclub_book&.book_id)
-    serialize_book(book)
+    if book 
+      serialize_book(book)
+    end
   end
 
   private 

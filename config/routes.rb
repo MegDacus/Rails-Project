@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :bookclubs, only: [:index, :show, :destroy, :create] do
     resources :memberships, only: [:index, :create, :destroy]
-    resources :bookclub_books, only: [:index]
+    resources :bookclub_books, only: [:index, :create]
     resources :discussion_questions, only: [:index, :show, :create, :destroy] do 
       resources :comments, only: [:index, :create, :destroy]
     end

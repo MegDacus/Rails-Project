@@ -46,7 +46,7 @@ class DiscussionQuestionsController < ApplicationController
     end
 
     def is_host?
-        Membership.exists?(bookclub_id: @bookclub.id, user_id: @current_user.id, is_host: true)
+        Membership.exists?(bookclub_id: params[:bookclub_id], user_id: @current_user.id, is_host: true)
     end
 
     def render_error
