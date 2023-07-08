@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_03_043310) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_064101) do
   create_table "bookclub_books", force: :cascade do |t|
     t.integer "bookclub_id"
     t.integer "book_id"
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_043310) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "host_user_id"
   end
 
   create_table "books", force: :cascade do |t|
@@ -70,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_03_043310) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_admin"
   end
 
   add_foreign_key "bookclub_books", "bookclubs"

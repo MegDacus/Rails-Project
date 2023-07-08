@@ -3,12 +3,17 @@ class UsersController < ApplicationController
     skip_before_action :verify_authenticity_token, only: :create
 
     def index
-        users = User.all 
-        render json: users, status: :ok 
+        if @current_user[:is_admin] 
+            users = User.all 
+            render json: users, status: :ok
+        else
+            render json: {error: "This page is for admin only"}, status: :unauthorized
+        end
     end
 
     def create
         user = User.create!(user_params)
+        user[:is_admin] = false
         session[:user_id] = user.id
         render json: user, status: :created
     end

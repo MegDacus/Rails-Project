@@ -4,4 +4,9 @@ class GenresController < ApplicationController
         genres = Genre.all 
         render json: genres, status: :ok
     end
+
+    def show
+        genre = Genre.find_by(id: params[:id])
+        render json: genre
+    end
 end
