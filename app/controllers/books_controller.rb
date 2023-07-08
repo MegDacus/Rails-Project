@@ -1,31 +1,32 @@
 class BooksController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:create, :destroy]
+
     def index
         books = Book.all
-        render json: books, exclude: ['bookclubs', 'discussion_questions'], status: :ok
+        render json: books, exclude: ['bookclubs', 'discussion_questions']
     end
 
    def show
         book = Book.find_by(id: params[:id])
-        render json: book, status: :ok
+        render json: book
    end
 
    def create
-     if @current_user[:is_admin] == true
+     if is_admin?
         book = Book.create!(book_params)
         render json: book, status: :created
      else  
-        render json: {error: "Only admin can add new books to our website"}, status: :unauthorized
+        render_error
      end
    end
 
    def destroy 
-    if @current_user[:is_admin] == true 
+    if is_admin?
         book = Book.find_by!(id: params[:id])
         book.delete 
         head :no_content 
     else  
-        render json: {error: "Only admin can delete a book from our website"}, status: :unauthorized
+        render_error
     end
    end
 
@@ -33,5 +34,13 @@ class BooksController < ApplicationController
 
    def book_params 
     params.permit(:genre_id, :title, :author)
+   end
+
+   def is_admin?
+    @current_user[:is_admin] == true
+   end
+
+   def render_error 
+    render json: { errors: ['Only admin have access to this action']}, status: :unprocessable_entity
    end
 end

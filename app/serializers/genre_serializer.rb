@@ -1,8 +1,12 @@
 class GenreSerializer < ActiveModel::Serializer
   attributes :id, :name
 
-  has_many :bookclubs, serializer: BookclubSerializer do
+  has_many :bookclubs, if: -> {should_include?(:bookclubs)}, serializer: BookclubSerializer do
     object.bookclubs.uniq
+  end
+
+  def should_include?(association)
+    !instance_options[:exclude]&.include?(association.to_s)
   end
 end
 

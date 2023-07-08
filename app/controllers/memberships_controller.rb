@@ -1,23 +1,13 @@
 class MembershipsController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:create, :destroy]
+    before_action :get_bookclub, only: [:index, :create]
    
     def index
-        get_bookclub
         memberships = @bookclub.memberships.order(is_host: :desc)
-        unless memberships.blank? 
-            render json: memberships, status: :ok
-        else  
-            render json: 'There are currently no active memberships for this bookclub.', status: :not_found
-        end
-    end
-
-    def show
-        membership = Membership.find_by(user_id: params[:user_id])
-        render json: membership, status: :ok
+        render json: memberships
     end
 
     def create
-        get_bookclub
         if @bookclub.memberships.exists?(user_id: @current_user.id)
           render json: { error: "Membership already exists for the current user" }, status: :unprocessable_entity
         else
@@ -28,7 +18,7 @@ class MembershipsController < ApplicationController
 
     def destroy 
         membership = Membership.find_by!(id: params[:id])
-        if membership[:user_id] == @current_user.id
+        if membership_belongs_to_current_user?(membership)
             membership.delete 
             head :no_content
         else  
@@ -40,5 +30,9 @@ class MembershipsController < ApplicationController
     
     def get_bookclub
         @bookclub = Bookclub.find_by(id: params[:bookclub_id])
+    end
+
+    def membership_belongs_to_current_user?(membership)
+        membership.user_id == @current_user.id
     end
 end
