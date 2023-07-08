@@ -3,7 +3,7 @@ class BookclubsController < ApplicationController
 
     def index
         clubs = Bookclub.all
-        render json: clubs, exclude: ['previous_books', 'discussion_questions']
+        render json: clubs, each_serializer: BookclubIndexSerializer
     end
 
     def create
@@ -14,7 +14,7 @@ class BookclubsController < ApplicationController
 
     def show
         club = Bookclub.find_by!(id: params[:id])
-        render json: club, include: ['this_months_book','discussion_questions','previous_books'], status: :ok
+        render json: club, include: ['this_months_book','discussion_questions','previous_books']
     end
 
     def destroy 

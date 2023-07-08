@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :users, :bookclubs, :books, :genres, only: [:index, :show, :destroy, :create]
+  resources :books, only: [:index, :show, :destroy, :create]
+  resources :users, only: [:index]
+  resources :genres, only: [:index, :show]
 
-  resources :bookclubs do
+  resources :bookclubs, only: [:index, :show, :destroy, :create] do
     resources :memberships, only: [:index, :create, :destroy]
     resources :bookclub_books, only: [:index]
     resources :discussion_questions, only: [:index, :show, :create, :destroy] do 
@@ -14,4 +16,5 @@ Rails.application.routes.draw do
   get '/me', to: 'users#show'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+
 end
