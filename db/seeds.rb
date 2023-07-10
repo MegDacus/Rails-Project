@@ -1,26 +1,26 @@
 puts "Currently seeding..."
 
 # User
-# User.create([
-#     {username: "MegDacus",
-#     first_name: "Megan",
-#     last_name: "Dacus",
-#     password: "password",
-#     password_confirmation: "password",
-#     is_admin: false},
-#     {username: "Admin_Meg",
-#     first_name: "Admin",
-#     last_name: "User",
-#     password: "admin",
-#     password_confirmation: "admin",
-#     is_admin: true},
-#     {username: "MegJustice",
-#     first_name: "Megan",
-#     last_name: "Justice",
-#     password: "1234",
-#     password_confirmation: "1234",
-#     is_admin: false}
-# ])
+User.create([
+    {username: "Admin_Meg",
+    first_name: "Admin",
+    last_name: "User",
+    password: "admin",
+    password_confirmation: "admin",
+    is_admin: true},
+    {username: "MegDacus",
+    first_name: "Megan",
+    last_name: "Dacus",
+    password: "password",
+    password_confirmation: "password",
+    is_admin: false},
+    {username: "MegJustice",
+    first_name: "Megan",
+    last_name: "Justice",
+    password: "1234",
+    password_confirmation: "1234",
+    is_admin: false}
+])
 
 # Bookclub
 Bookclub.create([

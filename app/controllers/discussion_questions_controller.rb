@@ -50,6 +50,6 @@ class DiscussionQuestionsController < ApplicationController
     end
 
     def render_error
-        render json: {errors: ['Only the host is authorized for this action']}, status: :unprocessable_entity
+        render json: {errors: ['Only the host is authorized for this action']}, status: :unauthorized
     end
 end
